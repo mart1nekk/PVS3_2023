@@ -17,7 +17,7 @@ public class MapExam {
 
     public MapExam() {
         rating = countryCities.get(City.population).stream()
-                .mapToDouble(Double::doubleValue)
+                .mapToDouble(value -> Double.doubleValue(value))
                 .average()
                 .orElse(0);
         City.setRating(rating);
@@ -28,6 +28,7 @@ public class MapExam {
      */
     static HashMap<String, ArrayList<City>> loadMapCities(String filePath){
       HashMap<String, ArrayList<City>> map = new HashMap<>();
+
       //nacist mesta, vyparsovat jako objekt a ulozit do zadane mapy
         try{
             List<String> lines = Files.readAllLines(Paths.get(filePath));
@@ -50,15 +51,17 @@ public class MapExam {
 
     public static void main(String[] args) {
         countryCities = loadMapCities("city.csv");
+        System.out.println();
 
     }
 }  class City{
     String name, district;
-    int population;
+    static int population;
     double rating;
-    public void setRating(double rating) {
+    public static void setRating(double rating) {
         this.rating = rating;
     }
+
 
     public City(String name, String district, int population) {
         this.name = name;
